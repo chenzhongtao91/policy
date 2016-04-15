@@ -1,0 +1,62 @@
+syntax = "proto2";
+
+package metaproto;
+
+message Host 
+{
+	optional bytes   ip       = 1;
+	optional bytes   status   = 2;
+	optional bytes optime = 3;
+	repeated bytes   devices  = 4;  //device key
+}
+
+message Device
+{
+	optional bytes  id     = 1;  // id generate where replica initialize
+	optional bytes  host   = 2;  // host ip
+	optional bytes  port   = 3;
+	optional bytes  total  = 4;
+	optional bytes  free   = 5;
+	optional bytes  status = 6;
+	optional bytes  identify = 7;  	
+	optional bytes  volumekey = 8;
+	optional bytes  backend = 9;
+	optional bytes optime = 10;
+}
+
+message Container
+{
+	message AttachVolume 
+	{
+		optional bytes volumeid = 1;
+		optional bytes mode = 2;
+		optional bytes driver = 3;
+	}
+	optional bytes id = 1;              // container id that docker generate
+	optional bytes status = 2;
+	optional bytes optime = 3;
+	repeated AttachVolume volumes = 4;  
+}
+
+message Volume
+{
+    message OwnerContainer 
+	{
+		optional bytes containerid = 1;  
+	       optional bytes mode = 2; 
+	}
+	
+	message AttachDevice 
+	{
+		optional bytes deviceid = 1;
+		optional bytes status = 2;
+	}	
+	
+	optional bytes id = 1;             // global unique volume name
+	optional bytes status = 2;
+	optional bytes capacity = 3;
+	optional bytes writable = 4;
+	optional bytes optime = 5;
+	repeated OwnerContainer containers = 6;
+	repeated AttachDevice devices = 7;
+}
